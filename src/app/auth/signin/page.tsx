@@ -7,7 +7,8 @@ import { useState, Suspense } from "react";
 // Component that uses useSearchParams
 function SignInContent() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams?.get("callbackUrl") || "/dashboard";
+  // Always redirect to dashboard regardless of the provided callbackUrl
+  const callbackUrl = "/dashboard";
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -16,6 +17,19 @@ function SignInContent() {
       setIsLoading(true);
       setError("");
       await signIn("google", { callbackUrl });
+    } catch (error) {
+      console.error("Authentication error:", error);
+      setError("Failed to sign in. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const handleGithubSignIn = async () => {
+    try {
+      setIsLoading(true);
+      setError("");
+      await signIn("github", { callbackUrl });
     } catch (error) {
       console.error("Authentication error:", error);
       setError("Failed to sign in. Please try again.");
@@ -43,9 +57,17 @@ function SignInContent() {
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed mb-3"
           >
             {isLoading ? "Signing in..." : "Sign in with Google"}
+          </button>
+          
+          <button
+            onClick={handleGithubSignIn}
+            disabled={isLoading}
+            className="group relative flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Signing in..." : "Sign in with GitHub"}
           </button>
         </div>
       </div>

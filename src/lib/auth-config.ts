@@ -122,10 +122,25 @@ export const authConfig: NextAuthConfig = {
       }
       return true; // Allow sign in for other providers
     },
+    // Add redirect callback to ensure consistent redirect behavior
+    async redirect({ url, baseUrl }) {
+      // If the URL is absolute and starts with the base URL, allow it
+      if (url.startsWith(baseUrl)) return url;
+      // If the URL is a relative URL, join it with the base URL
+      else if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Always redirect to dashboard after successful authentication
+      if (url.includes('/api/auth/signin') || url.includes('/api/auth/callback')) {
+        return `${baseUrl}/dashboard`;
+      }
+      // Default to the base URL for everything else
+      return baseUrl;
+    }
   },
   pages: {
     signIn: "/auth/signin",
     error: "/auth/error",
+    // Explicitly set after sign-in redirect to dashboard
+    signOut: "/auth/signin",
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
