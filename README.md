@@ -2,8 +2,6 @@
 
 Schedulo is a modern web application that streamlines the process of scheduling meetings and sending emails in one unified workflow.
 
-![Schedulo Logo](public/schedulo-icon.svg)
-
 ## ✨ Features
 
 - **Unified Workflow**: Create emails and schedule meetings in one seamless process
