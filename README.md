@@ -2,7 +2,7 @@
 
 Schedulo is a modern web application that streamlines the process of scheduling meetings and sending emails in one unified workflow.
 
-## ✨ Features
+## Features
 
 - **Unified Workflow**: Create emails and schedule meetings in one seamless process
 - **Google Meet Integration**: Automatically generate meeting links and calendar invitations
@@ -10,7 +10,7 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 - **Authentication**: Secure login via Google and GitHub OAuth
 - **Modern UI**: Clean, responsive interface built with Tailwind CSS
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -50,7 +50,7 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 
 5. Visit `http://localhost:3000` to use the application
 
-## 💻 Tech Stack
+## Tech Stack
 
 - **Frontend**: Next.js, React, Tailwind CSS
 - **Authentication**: NextAuth.js
@@ -58,7 +58,7 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 - **Calendar API**: Google Calendar API
 - **Form Handling**: React Hook Form with Zod validation
 
-## 📝 Usage
+## Usage
 
 1. Log in using Google or GitHub
 2. Compose your email 
@@ -67,11 +67,11 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 5. Send your email with meeting details included
 6. Calendar invitations are automatically sent to all recipients
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
