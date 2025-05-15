@@ -54,7 +54,6 @@ export const authConfig: NextAuthConfig = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
       authorization: {
         params: {
-          // Using limited scopes initially to reduce verification requirements
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
@@ -65,7 +64,9 @@ export const authConfig: NextAuthConfig = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID || "",
       clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+      // Explicitly define the authorization endpoint to avoid URL encoding issues
       authorization: {
+        url: "https://github.com/login/oauth/authorize",
         params: {
           scope: "read:user user:email"
         }
@@ -81,6 +82,7 @@ export const authConfig: NextAuthConfig = {
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
           expiresAt: account.expires_at ? account.expires_at * 1000 : 0, // Convert to milliseconds
+          provider: account.provider, // Save the provider type
         };
       }
 
@@ -91,7 +93,12 @@ export const authConfig: NextAuthConfig = {
       }
 
       // Access token has expired, try to refresh it
-      return refreshAccessToken(token);
+      // Only attempt refresh for Google accounts, GitHub tokens don't expire as often
+      if (token.provider === "google" && token.refreshToken) {
+        return refreshAccessToken(token);
+      }
+      
+      return token;
     },
     async session({ session, token }) {
       if (token.accessToken) {
@@ -100,15 +107,18 @@ export const authConfig: NextAuthConfig = {
       if (token.error) {
         session.error = token.error;
       }
+      // Add the provider to the session for client-side awareness
+      session.provider = token.provider as string;
       return session;
     },
     async signIn({ account }) {
       if (account?.provider === "google") {
         // Allow any Google sign in during development
         return true;
-        
-        // Once in production, you may want to restrict to specific domains or emails
-        // return profile?.email?.endsWith('@yourdomain.com') || false;
+      }
+      if (account?.provider === "github") {
+        // Allow any GitHub sign in
+        return true;
       }
       return true; // Allow sign in for other providers
     },
@@ -120,6 +130,7 @@ export const authConfig: NextAuthConfig = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   debug: process.env.NODE_ENV === "development",
-};
+}

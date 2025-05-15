@@ -17,9 +17,33 @@ export async function POST(req: NextRequest) {
   try {
     // Check if user is authenticated
     const session = await auth();
+    
     if (!session) {
       return NextResponse.json(
         { error: "You must be signed in to create meetings" },
+        { status: 401 }
+      );
+    }
+
+    // Debug session information
+    console.log("Session info:", {
+      user: session.user?.email,
+      hasAccessToken: !!session.accessToken,
+      provider: session.provider || "unknown"
+    });
+
+    // If user authenticated with GitHub, they can't access Google Calendar
+    if (session.provider === "github") {
+      return NextResponse.json(
+        { error: "Google Calendar access requires Google authentication. Please sign in with Google to create meetings." },
+        { status: 403 }
+      );
+    }
+
+    // For Google auth, ensure we have an access token
+    if (session.provider === "google" && !session.accessToken) {
+      return NextResponse.json(
+        { error: "Missing access token. Please re-authenticate with Google." },
         { status: 401 }
       );
     }
@@ -45,15 +69,12 @@ export async function POST(req: NextRequest) {
     // Configure OAuth2 client
     const oauth2Client = new google.auth.OAuth2(
       process.env.GOOGLE_CLIENT_ID,
-      process.env.GOOGLE_CLIENT_SECRET,
-      process.env.NEXTAUTH_URL
+      process.env.GOOGLE_CLIENT_SECRET
     );
 
-    // Set credentials from session (assuming you stored these after OAuth)
-    // In a real app, you would need to store and retrieve tokens properly
+    // Set credentials from session
     oauth2Client.setCredentials({
-      access_token: session.accessToken as string,
-      // You might also need refresh_token if you stored it
+      access_token: session.accessToken,
     });
 
     // Create Calendar API client
@@ -110,10 +131,12 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Meet creation error:", error);
+    // More detailed error response
     return NextResponse.json(
       {
         error: "Failed to create Google Meet",
         details: (error as Error).message,
+        stack: process.env.NODE_ENV === 'development' ? (error as Error).stack : undefined,
       },
       { status: 500 }
     );

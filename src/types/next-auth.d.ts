@@ -7,6 +7,7 @@ declare module "next-auth" {
   interface Session extends NextAuthSession {
     accessToken?: string;
     error?: string;
+    provider?: string; // Add the provider property
     user: {
       name?: string | null;
       email?: string | null;
@@ -21,5 +22,6 @@ declare module "next-auth/jwt" {
     refreshToken?: string;
     expiresAt?: number;
     error?: string;
+    provider?: string; // Add the provider property
   }
 }
