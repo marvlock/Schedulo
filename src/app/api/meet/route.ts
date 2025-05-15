@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "../auth/[...nextauth]/route";
+import { auth } from "@/lib/auth"; // Updated import path
 import { google } from "googleapis";
 import { z } from "zod";
 import { addMinutes, formatISO } from "date-fns";
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     // Set credentials from session (assuming you stored these after OAuth)
     // In a real app, you would need to store and retrieve tokens properly
     oauth2Client.setCredentials({
-      access_token: (session as any).accessToken,
+      access_token: session.accessToken as string,
       // You might also need refresh_token if you stored it
     });
 

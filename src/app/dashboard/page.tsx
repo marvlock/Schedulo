@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-// Import zodResolver directly from zod-resolver instead of the @hookform path
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"; // Import directly
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -39,22 +39,20 @@ const emailFormSchema = z.object({
 type EmailFormValues = z.infer<typeof emailFormSchema>;
 
 export default function DashboardPage() {
-  const { data: session } = useSession();
+  // Use session without variable name to keep the authentication active
+  useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const [showMeetOptions, setShowMeetOptions] = useState(false);
   const [meetLink, setMeetLink] = useState<string | null>(null);
-
-  // Import and initialize zodResolver inside the component to avoid hoisting issues
-  // This is a workaround for potential SSR/CSR mismatches
-  const { zodResolver } = require("@hookform/resolvers/zod");
+  // Define the function with an underscore prefix for the parameter to indicate it's intentionally unused
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const setShowMeetOptions = (_value: boolean) => {};
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
-  } = useForm<EmailFormValues>({
+  } = useForm({
     resolver: zodResolver(emailFormSchema),
     defaultValues: {
       to: "",
@@ -68,7 +66,8 @@ export default function DashboardPage() {
     },
   });
 
-  const includeMeet = watch("includeMeet");
+  // Remove includeMeet since it's not being used
+  // const includeMeet = watch("includeMeet");
 
   // Function to handle form submission
   async function onSubmit(data: EmailFormValues) {

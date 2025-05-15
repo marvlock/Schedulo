@@ -1,9 +1,12 @@
-import NextAuth from "next-auth";
-import { JWT } from "next-auth/jwt";
+// These imports are used in the module augmentation
+// Using import type to make it clear they're only for types
+import type { Session as NextAuthSession } from "next-auth";
+import type { JWT as NextAuthJWT } from "next-auth/jwt";
 
 declare module "next-auth" {
-  interface Session {
+  interface Session extends NextAuthSession {
     accessToken?: string;
+    error?: string;
     user: {
       name?: string | null;
       email?: string | null;
@@ -13,9 +16,10 @@ declare module "next-auth" {
 }
 
 declare module "next-auth/jwt" {
-  interface JWT {
+  interface JWT extends NextAuthJWT {
     accessToken?: string;
     refreshToken?: string;
     expiresAt?: number;
+    error?: string;
   }
 }

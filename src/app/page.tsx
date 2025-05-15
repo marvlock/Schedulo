@@ -29,9 +29,9 @@ export default function Home() {
           <div className="container mx-auto px-4 max-w-7xl">
             <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
               <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-                <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-                  <span className="block">Simplify your</span>
-                  <span className="block text-blue-600">meeting workflow</span>
+                <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+                  Don&apos;t juggle multiple apps.<br />
+                  Schedule and communicate in one place.
                 </h1>
                 <p className="mt-6 text-xl text-gray-600 leading-relaxed">
                   Create Google Meet events and send professional email invitations in one seamless platform. Save time and boost your productivity.
@@ -39,7 +39,7 @@ export default function Home() {
                 <div className="mt-8 sm:flex sm:justify-center lg:justify-start">
                   <Link href="/login">
                     <Button size="lg" className="px-6 py-3 text-base font-medium shadow-md bg-blue-600 hover:bg-blue-700">
-                      Get Started — It's Free
+                      Get Started — It&apos;s Free
                     </Button>
                   </Link>
                 </div>
