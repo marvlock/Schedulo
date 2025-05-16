@@ -100,4 +100,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-Built with ❤️ by Pranav Murali | Last Updated: May 2025
+Built with ❤️ by Pranav Murali 
