@@ -444,8 +444,8 @@ export default function DashboardPage() {
                         <div
                           key={index}
                           className={`
-                            text-center p-2 rounded-full cursor-pointer text-sm
-                            ${isDateSelected(date) ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}
+                            text-center p-2 rounded-full cursor-pointer text-sm font-medium
+                            ${isDateSelected(date) ? 'bg-blue-600 text-white' : 'hover:bg-gray-100 text-gray-900'}
                             ${isToday(date) && !isDateSelected(date) ? 'border border-blue-400' : ''}
                           `}
                           onClick={() => handleDateChange(date)}
