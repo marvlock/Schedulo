@@ -22,19 +22,6 @@ function SignInContent() {
       setIsLoading(false);
     }
   };
-  
-  const handleGithubSignIn = async () => {
-    try {
-      setIsLoading(true);
-      setError("");
-      await signIn("github", { callbackUrl });
-    } catch (error) {
-      console.error("Authentication error:", error);
-      setError("Failed to sign in. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -58,14 +45,6 @@ function SignInContent() {
             className="group relative flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed mb-3"
           >
             {isLoading ? "Signing in..." : "Sign in with Google"}
-          </button>
-          
-          <button
-            onClick={handleGithubSignIn}
-            disabled={isLoading}
-            className="group relative flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Signing in..." : "Sign in with GitHub"}
           </button>
         </div>
       </div>

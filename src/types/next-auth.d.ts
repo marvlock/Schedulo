@@ -6,6 +6,7 @@ import type { JWT as NextAuthJWT } from "next-auth/jwt";
 declare module "next-auth" {
   interface Session extends NextAuthSession {
     accessToken?: string;
+    refreshToken?: string; // Add refreshToken to the Session interface
     error?: string;
     provider?: string; // Add the provider property
     user: {

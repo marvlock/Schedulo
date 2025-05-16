@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth"; // Updated import path
+import { auth } from "@/lib/auth"; 
 import nodemailer from "nodemailer";
 import { z } from "zod";
 
 // Email request schema validation
 const emailSchema = z.object({
   to: z.union([
-    z.string().email(), // Single email
-    z.array(z.string().email()), // Array of emails
+    z.string().email(),
+    z.array(z.string().email()),
     z.string().refine((val) => {
-      // Comma-separated email addresses
       const emails = val.split(',').map(email => email.trim());
       return emails.every(email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
     }, {
@@ -61,21 +60,18 @@ export async function POST(req: NextRequest) {
     const { to, cc, subject, body: emailBody } = validationResult.data;
 
     // Process recipients - convert to a format that nodemailer accepts
-    // Nodemailer accepts comma-separated strings or arrays for recipients
     const processRecipients = (recipients: string | string[]) => {
       if (Array.isArray(recipients)) {
         return recipients;
       }
-      // If it's a string that contains commas, split it
       if (typeof recipients === 'string' && recipients.includes(',')) {
         return recipients.split(',').map(email => email.trim());
       }
-      // Otherwise, return as is
       return recipients;
     };
 
     // Verify email configuration is present
-    if (!process.env.EMAIL_SERVER_HOST || !process.env.EMAIL_SERVER_USER || !process.env.EMAIL_SERVER_PASSWORD) {
+    if (!process.env.EMAIL_SERVER_USER) {
       return NextResponse.json(
         { 
           error: "Email server not configured properly", 
@@ -85,14 +81,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Create Nodemailer transporter
+    // Create Nodemailer transporter using OAuth2 for Gmail
     const transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_SERVER_HOST,
-      port: parseInt(process.env.EMAIL_SERVER_PORT || "587"),
-      secure: process.env.EMAIL_SERVER_SECURE === "true",
+      service: 'Gmail',
       auth: {
+        type: 'OAuth2',
         user: process.env.EMAIL_SERVER_USER,
-        pass: process.env.EMAIL_SERVER_PASSWORD,
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        refreshToken: session.refreshToken,
+        accessToken: session.accessToken,
       },
     });
 
@@ -141,16 +139,13 @@ export async function POST(req: NextRequest) {
       success: true, 
       message: "Email sent successfully",
       messageId: info.messageId,
-      recipients: Array.isArray(mailOptions.to) ? mailOptions.to.length : 1
+      recipients: Array.isArray(mailOptions.to) ? mailOptions.to.length : 1,
     });
+
   } catch (error) {
     console.error("Email sending error:", error);
     return NextResponse.json(
-      { 
-        error: "Failed to send email", 
-        details: (error as Error).message,
-        stack: process.env.NODE_ENV === 'development' ? (error as Error).stack : undefined,
-      },
+      { error: "Failed to send email", details: (error as Error).message },
       { status: 500 }
     );
   }

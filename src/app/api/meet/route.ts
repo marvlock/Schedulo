@@ -11,6 +11,7 @@ const meetSchema = z.object({
   startDateTime: z.string(),
   durationMinutes: z.number().int().positive(),
   attendees: z.array(z.string()).default([]),
+  timeZone: z.string().optional().default("Etc/UTC"), // Add timeZone with default
 });
 
 export async function POST(req: NextRequest) {
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     });
 
     // If user authenticated with GitHub, they can't access Google Calendar
-    if (session.provider === "github") {
+    if (session.provider !== "google") {
       return NextResponse.json(
         { error: "Google Calendar access requires Google authentication. Please sign in with Google to create meetings." },
         { status: 403 }
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
     }
 
     // For Google auth, ensure we have an access token
-    if (session.provider === "google" && !session.accessToken) {
+    if (!session.accessToken) {
       return NextResponse.json(
         { error: "Missing access token. Please re-authenticate with Google." },
         { status: 401 }
@@ -60,7 +61,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { summary, description, startDateTime, durationMinutes, attendees } = validationResult.data;
+    const { summary, description, startDateTime, durationMinutes, attendees, timeZone } = validationResult.data;
 
     // Calculate end time by adding duration to start time
     const startTime = new Date(startDateTime);
@@ -95,11 +96,11 @@ export async function POST(req: NextRequest) {
         description,
         start: {
           dateTime: formatISO(startTime),
-          timeZone: "UTC",
+          timeZone: timeZone || "UTC", // Use provided timeZone or default to UTC
         },
         end: {
           dateTime: formatISO(endTime),
-          timeZone: "UTC",
+          timeZone: timeZone || "UTC", // Use provided timeZone or default to UTC
         },
         attendees: formattedAttendees,
         conferenceData: {
@@ -123,10 +124,19 @@ export async function POST(req: NextRequest) {
       throw new Error("Failed to create Google Meet link");
     }
 
+    // Log event creation with timezone information
+    console.log("Event created successfully", {
+      eventId: event.data.id,
+      timeZone: timeZone,
+      startTime: event.data.start?.dateTime,
+      creator: session.user?.email
+    });
+
     return NextResponse.json({
       success: true,
       eventId: event.data.id,
       meetLink,
+      timeZone: timeZone,
       message: "Google Meet created successfully",
     });
   } catch (error) {

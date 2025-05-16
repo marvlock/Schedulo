@@ -1,6 +1,5 @@
 import { type NextAuthConfig } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import GithubProvider from "next-auth/providers/github";
 import { JWT } from "next-auth/jwt";
 
 /**
@@ -10,18 +9,20 @@ import { JWT } from "next-auth/jwt";
  */
 async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
-    const url = "https://oauth2.googleapis.com/token";
+    const url =
+      "https://oauth2.googleapis.com/token?" +
+      new URLSearchParams({
+        client_id: process.env.GOOGLE_CLIENT_ID || "",
+        client_secret: process.env.GOOGLE_CLIENT_SECRET || "",
+        grant_type: "refresh_token",
+        refresh_token: token.refreshToken as string,
+      });
+
     const response = await fetch(url, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       method: "POST",
-      body: new URLSearchParams({
-        client_id: process.env.GOOGLE_CLIENT_ID || "",
-        client_secret: process.env.GOOGLE_CLIENT_SECRET || "",
-        grant_type: "refresh_token",
-        refresh_token: token.refreshToken || "",
-      }),
     });
 
     const refreshedTokens = await response.json();
@@ -34,11 +35,10 @@ async function refreshAccessToken(token: JWT): Promise<JWT> {
       ...token,
       accessToken: refreshedTokens.access_token,
       expiresAt: Date.now() + refreshedTokens.expires_in * 1000,
-      // Fall back to old refresh token, but if we got a new one, use it
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token
     };
   } catch (error) {
-    console.error("Error refreshing access token", error);
+    console.error("RefreshAccessTokenError", error);
     return {
       ...token,
       error: "RefreshAccessTokenError",
@@ -57,20 +57,9 @@ export const authConfig: NextAuthConfig = {
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
-          scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
+          scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events https://mail.google.com/",
         },
       },
-    }),
-    GithubProvider({
-      clientId: process.env.GITHUB_CLIENT_ID || "",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
-      // Explicitly define the authorization endpoint to avoid URL encoding issues
-      authorization: {
-        url: "https://github.com/login/oauth/authorize",
-        params: {
-          scope: "read:user user:email"
-        }
-      }
     }),
   ],
   callbacks: {
@@ -93,7 +82,7 @@ export const authConfig: NextAuthConfig = {
       }
 
       // Access token has expired, try to refresh it
-      // Only attempt refresh for Google accounts, GitHub tokens don't expire as often
+      // Only attempt refresh for Google accounts
       if (token.provider === "google" && token.refreshToken) {
         return refreshAccessToken(token);
       }
@@ -102,37 +91,28 @@ export const authConfig: NextAuthConfig = {
     },
     async session({ session, token }) {
       if (token.accessToken) {
-        session.accessToken = token.accessToken;
+        session.accessToken = token.accessToken as string;
+      }
+      if (token.refreshToken) {
+        session.refreshToken = token.refreshToken as string;
       }
       if (token.error) {
-        session.error = token.error;
+        session.error = token.error as string;
       }
       // Add the provider to the session for client-side awareness
       session.provider = token.provider as string;
       return session;
     },
     async signIn({ account }) {
-      if (account?.provider === "google") {
-        // Allow any Google sign in during development
-        return true;
-      }
-      if (account?.provider === "github") {
-        // Allow any GitHub sign in
-        return true;
-      }
-      return true; // Allow sign in for other providers
+      // Only allow Google sign-ins
+      return account?.provider === "google";
     },
     // Add redirect callback to ensure consistent redirect behavior
     async redirect({ url, baseUrl }) {
-      // If the URL is absolute and starts with the base URL, allow it
-      if (url.startsWith(baseUrl)) return url;
-      // If the URL is a relative URL, join it with the base URL
-      else if (url.startsWith("/")) return `${baseUrl}${url}`;
-      // Always redirect to dashboard after successful authentication
-      if (url.includes('/api/auth/signin') || url.includes('/api/auth/callback')) {
-        return `${baseUrl}/dashboard`;
-      }
-      // Default to the base URL for everything else
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     }
   },
@@ -148,4 +128,4 @@ export const authConfig: NextAuthConfig = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   debug: process.env.NODE_ENV === "development",
-}
+};
