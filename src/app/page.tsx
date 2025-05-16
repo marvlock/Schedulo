@@ -168,9 +168,17 @@ export default function Home() {
               </svg>
               <span className="text-lg font-bold text-white">Schedulo</span>
             </div>
-            <p className="mt-4 md:mt-0 text-gray-400 text-sm">
-              © {new Date().getFullYear()} Schedulo. All rights reserved.
-            </p>
+            <div className="mt-4 md:mt-0 flex flex-col md:flex-row md:space-x-6 items-center">
+              <Link href="/privacy" className="text-gray-300 hover:text-white text-sm">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-gray-300 hover:text-white text-sm">
+                Terms of Service
+              </Link>
+              <p className="text-gray-400 text-sm mt-2 md:mt-0">
+                © {new Date().getFullYear()} Schedulo. All rights reserved.
+              </p>
+            </div>
           </div>
         </div>
       </footer>
