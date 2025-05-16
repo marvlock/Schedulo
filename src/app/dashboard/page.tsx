@@ -421,18 +421,18 @@ export default function DashboardPage() {
 
                 {/* Date Picker - Enhanced Calendar Style */}
                 <div className="mb-6">
-                  <Label htmlFor="meetDate" className="text-gray-700 font-medium block mb-2 text-sm">
+                  <Label htmlFor="meetDate" className="text-gray-900 font-medium block mb-2 text-sm">
                     Date
                   </Label>
                   <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-                    <div className="text-center mb-4 text-gray-700 font-medium">
+                    <div className="text-center mb-4 text-gray-900 font-medium">
                       {getMonthYearDisplay(selectedDay)}
                     </div>
                     
                     {/* Days of week header */}
                     <div className="grid grid-cols-7 gap-1 mb-2">
                       {generateDaysOfWeek().map((day) => (
-                        <div key={day} className="text-center text-xs text-gray-500 font-medium py-1">
+                        <div key={day} className="text-center text-xs text-gray-700 font-medium py-1">
                           {day}
                         </div>
                       ))}
@@ -459,7 +459,7 @@ export default function DashboardPage() {
                     <input 
                       type="hidden" 
                       id="meetDate"
-                      {...register("meetDate")}
+                      {...register("meetDate")} 
                     />
                   </div>
                   {errors.meetDate && (
@@ -469,7 +469,7 @@ export default function DashboardPage() {
 
                 {/* Time Zone Selector */}
                 <div className="mb-6 relative">
-                  <Label htmlFor="meetTimeZone" className="text-gray-700 font-medium block mb-2 text-sm">
+                  <Label htmlFor="meetTimeZone" className="text-gray-900 font-medium block mb-2 text-sm">
                     Time Zone
                   </Label>
                   <div className="relative">
@@ -477,10 +477,10 @@ export default function DashboardPage() {
                       className="w-full p-3 border border-gray-200 rounded-lg flex items-center justify-between bg-white cursor-pointer"
                       onClick={() => setIsTimeZoneDropdownOpen(!isTimeZoneDropdownOpen)}
                     >
-                      <span className="text-gray-800">{getTimeZoneDisplay(meetTimeZone)}</span>
+                      <span className="text-gray-900">{getTimeZoneDisplay(meetTimeZone)}</span>
                       <svg 
                         xmlns="http://www.w3.org/2000/svg" 
-                        className={`h-5 w-5 text-gray-500 transition-transform ${isTimeZoneDropdownOpen ? 'transform rotate-180' : ''}`} 
+                        className={`h-5 w-5 text-gray-700 transition-transform ${isTimeZoneDropdownOpen ? 'transform rotate-180' : ''}`} 
                         fill="none" 
                         viewBox="0 0 24 24" 
                         stroke="currentColor"
@@ -520,14 +520,14 @@ export default function DashboardPage() {
                     id="meetTimeZone"
                     {...register("meetTimeZone")} 
                   />
-                  <p className="text-gray-500 text-xs mt-1">
+                  <p className="text-gray-800 text-xs mt-1">
                     The meeting will appear in each attendee&apos;s local time zone in their calendar.
                   </p>
                 </div>
 
                 {/* Time Picker - Enhanced Time Selection */}
                 <div className="mb-6">
-                  <Label htmlFor="meetTime" className="text-gray-700 font-medium block mb-2 text-sm">
+                  <Label htmlFor="meetTime" className="text-gray-900 font-medium block mb-2 text-sm">
                     Time
                   </Label>
                   <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
@@ -564,7 +564,7 @@ export default function DashboardPage() {
 
                 {/* Duration Slider */}
                 <div className="mb-6">
-                  <Label htmlFor="meetDuration" className="text-gray-700 font-medium block mb-2 text-sm">
+                  <Label htmlFor="meetDuration" className="text-gray-900 font-medium block mb-2 text-sm">
                     Duration: <span className="font-bold">{meetDuration} minutes</span>
                   </Label>
                   <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
@@ -576,7 +576,7 @@ export default function DashboardPage() {
                             rounded-full px-4 py-2 cursor-pointer text-sm text-center flex-grow
                             ${meetDuration === duration ? 
                               'bg-blue-600 text-white font-medium shadow-sm' : 
-                              'bg-gray-100 hover:bg-gray-200 text-gray-700'}
+                              'bg-gray-100 hover:bg-gray-200 text-gray-900'}
                           `}
                           onClick={() => setValue("meetDuration", duration)}
                         >
@@ -603,7 +603,7 @@ export default function DashboardPage() {
                 {/* Meeting Preview */}
                 <div className="bg-white p-4 rounded-lg border border-blue-100 mt-4 shadow-sm">
                   <div className="text-blue-800 font-medium mb-2">Meeting Summary</div>
-                  <div className="text-sm text-gray-700 space-y-1">
+                  <div className="text-sm text-gray-900 space-y-1">
                     <div className="flex items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
@@ -630,7 +630,7 @@ export default function DashboardPage() {
                       </svg>
                       <span>Google Meet link will be generated and sent to all recipients</span>
                     </div>
-                    <div className="mt-3 p-2 bg-blue-50 rounded text-xs text-blue-700">
+                    <div className="mt-3 p-2 bg-blue-50 rounded text-xs text-blue-800">
                       The meeting will be scheduled in {getTimeZoneDisplay(meetTimeZone)} and adjusted to each recipient&apos;s local time zone in their calendar.
                     </div>
                   </div>
