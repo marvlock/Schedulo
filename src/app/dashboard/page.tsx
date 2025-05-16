@@ -432,7 +432,7 @@ export default function DashboardPage() {
                     {/* Days of week header */}
                     <div className="grid grid-cols-7 gap-1 mb-2">
                       {generateDaysOfWeek().map((day) => (
-                        <div key={day} className="text-center text-xs text-gray-700 font-medium py-1">
+                        <div key={day} className="text-center text-xs text-gray-900 font-medium py-1">
                           {day}
                         </div>
                       ))}
