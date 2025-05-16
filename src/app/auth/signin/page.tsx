@@ -1,12 +1,10 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
 
 // Component that uses useSearchParams
 function SignInContent() {
-  const searchParams = useSearchParams();
   // Always redirect to dashboard regardless of the provided callbackUrl
   const callbackUrl = "/dashboard";
   const [isLoading, setIsLoading] = useState(false);
