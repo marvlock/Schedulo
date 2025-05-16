@@ -505,7 +505,7 @@ export default function DashboardPage() {
                           {filteredTimeZones.map((tz) => (
                             <div 
                               key={tz.value}
-                              className={`p-2 cursor-pointer hover:bg-blue-50 ${meetTimeZone === tz.value ? 'bg-blue-100 font-medium' : ''}`}
+                              className={`p-2 cursor-pointer hover:bg-blue-50 text-black ${meetTimeZone === tz.value ? 'bg-blue-100 font-medium' : ''}`}
                               onClick={() => handleTimeZoneSelect(tz.value)}
                             >
                               {tz.label}
