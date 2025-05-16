@@ -412,7 +412,7 @@ export default function DashboardPage() {
             {/* Google Meet Options - Show only if includeMeet is checked */}
             {includeMeet && (
               <div className="border p-6 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 space-y-5 border-blue-200 shadow-sm transition-all duration-300">
-                <h3 className="font-medium text-blue-800 flex items-center text-lg mb-4 pb-2 border-b border-blue-100">
+                <h3 className="font-semibold text-blue-900 flex items-center text-lg mb-4 pb-2 border-b border-blue-100">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
                   </svg>
@@ -527,13 +527,13 @@ export default function DashboardPage() {
 
                 {/* Time Picker - Enhanced Time Selection */}
                 <div className="mb-6">
-                  <Label htmlFor="meetTime" className="text-gray-900 font-medium block mb-2 text-sm">
+                  <Label htmlFor="meetTime" className="text-black font-semibold block mb-2 text-sm">
                     Time
                   </Label>
                   <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
                     <div className="p-3 flex items-center justify-between bg-blue-50 border-b border-gray-200">
-                      <span className="text-blue-800 font-medium">Select start time: </span>
-                      <span className="text-blue-800 font-bold">{formatTimeDisplay(meetTime)}</span>
+                      <span className="text-black font-medium">Select start time: </span>
+                      <span className="text-blue-900 font-bold">{formatTimeDisplay(meetTime)}</span>
                     </div>
                     <div className="p-3 grid grid-cols-4 gap-2 max-h-36 overflow-y-auto">
                       {generateTimeOptions().map((time) => (
@@ -541,7 +541,7 @@ export default function DashboardPage() {
                           key={time}
                           className={`
                             text-center p-2 rounded cursor-pointer text-sm
-                            ${time === meetTime ? 'bg-blue-600 text-white' : 'hover:bg-gray-100'}
+                            ${time === meetTime ? 'bg-blue-600 text-white' : 'hover:bg-gray-100 text-gray-900'}
                           `}
                           onClick={() => setValue("meetTime", time)}
                         >
