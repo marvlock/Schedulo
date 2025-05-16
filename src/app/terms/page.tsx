@@ -31,7 +31,7 @@ export default function TermsOfService() {
             
             <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">1. Acceptance of Terms</h2>
             <p>
-              By accessing or using Schedulo ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our Service.
+              By accessing or using Schedulo (&ldquo;Service&rdquo;), you agree to be bound by these Terms of Service (&ldquo;Terms&rdquo;). If you do not agree to these Terms, please do not use our Service.
             </p>
             <p>
               We reserve the right to modify these Terms at any time. Your continued use of the Service following the posting of changes constitutes your acceptance of such changes.
@@ -58,13 +58,13 @@ export default function TermsOfService() {
 
             <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">4. User Content</h2>
             <p>
-              You retain all ownership rights to content you submit, post, or display using our Service ("User Content"). By providing User Content, you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, adapt, publish, and distribute such content for the purpose of providing and improving our Service.
+              You retain all ownership rights to content you submit, post, or display using our Service (&ldquo;User Content&rdquo;). By providing User Content, you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, adapt, publish, and distribute such content for the purpose of providing and improving our Service.
             </p>
             <p>
               You agree not to submit User Content that:
             </p>
             <ul className="list-disc pl-6 my-4">
-              <li>Infringes on any third party's intellectual property or other rights</li>
+              <li>Infringes on any third party&apos;s intellectual property or other rights</li>
               <li>Contains unlawful, defamatory, abusive, or objectionable material</li>
               <li>Contains viruses, malware, or other harmful code</li>
               <li>Violates or encourages violation of any applicable laws or regulations</li>
@@ -75,8 +75,8 @@ export default function TermsOfService() {
               Our Service integrates with Google API services to provide core functionality. By using these integrations, you agree to:
             </p>
             <ul className="list-disc pl-6 my-4">
-              <li>Google's Terms of Service</li>
-              <li>Google's Privacy Policy</li>
+              <li>Google&apos;s Terms of Service</li>
+              <li>Google&apos;s Privacy Policy</li>
             </ul>
             <p>
               Our use and transfer to any other app of information received from Google APIs will adhere to <a href="https://developers.google.com/terms/api-services-user-data-policy" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>, including the Limited Use requirements.
@@ -92,7 +92,7 @@ export default function TermsOfService() {
 
             <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">7. Disclaimer of Warranties</h2>
             <p>
-              THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+              THE SERVICE IS PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
             </p>
             <p>
               WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED OR ERROR-FREE, THAT DEFECTS WILL BE CORRECTED, OR THAT THE SERVICE OR SERVERS THAT MAKE IT AVAILABLE ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS.

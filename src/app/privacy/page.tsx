@@ -31,7 +31,7 @@ export default function PrivacyPolicy() {
             
             <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">1. Introduction</h2>
             <p>
-              Welcome to Schedulo ("we," "our," or "us"). We are committed to protecting your privacy and the information you share with us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application.
+              Welcome to Schedulo (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;). We are committed to protecting your privacy and the information you share with us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application.
             </p>
             <p>
               By accessing or using Schedulo, you consent to the practices described in this Privacy Policy. If you do not agree with the practices described here, please do not use our application.
@@ -93,17 +93,17 @@ export default function PrivacyPolicy() {
               <li>Withdrawing consent for future processing</li>
             </ul>
             <p>
-              To exercise these rights, please contact us using the information provided in the "Contact Us" section.
+              To exercise these rights, please contact us using the information provided in the &ldquo;Contact Us&rdquo; section.
             </p>
 
-            <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">8. Children's Privacy</h2>
+            <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">8. Children&apos;s Privacy</h2>
             <p>
               Our services are not intended for individuals under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
             </p>
 
             <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">9. Changes to This Privacy Policy</h2>
             <p>
-              We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date. You are advised to review this Privacy Policy periodically for any changes.
+              We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the &ldquo;Last updated&rdquo; date. You are advised to review this Privacy Policy periodically for any changes.
             </p>
 
             <h2 className="text-xl font-semibold mt-8 mb-4 text-gray-800">10. Contact Us</h2>
