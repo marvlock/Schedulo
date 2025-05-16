@@ -123,8 +123,9 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [meetLink, setMeetLink] = useState<string | null>(null);
 
-  // Add state for date picker UI
+  // Enhanced state for date picker UI
   const [selectedDay, setSelectedDay] = useState<Date>(new Date(getTomorrowDate()));
+  const [currentMonth, setCurrentMonth] = useState<Date>(new Date()); // Track current month view
 
   // Find the local timezone
   const localTimeZone = getLocalTimeZone();
@@ -173,6 +174,25 @@ export default function DashboardPage() {
   const handleDateChange = (date: Date) => {
     setSelectedDay(date);
     setValue("meetDate", date.toISOString().split('T')[0]);
+  };
+
+  // Navigate to previous month
+  const goToPreviousMonth = () => {
+    const previousMonth = new Date(currentMonth);
+    previousMonth.setMonth(previousMonth.getMonth() - 1);
+    setCurrentMonth(previousMonth);
+  };
+
+  // Navigate to next month
+  const goToNextMonth = () => {
+    const nextMonth = new Date(currentMonth);
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    setCurrentMonth(nextMonth);
+  };
+
+  // Navigate to current month
+  const goToCurrentMonth = () => {
+    setCurrentMonth(new Date());
   };
 
   // Filter time zones based on search query
@@ -288,19 +308,32 @@ export default function DashboardPage() {
     return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   };
 
-  // Generate dates for the week view
-  const generateWeekDates = () => {
-    const dates = [];
-    const today = new Date();
+  // Generate dates for the full month view
+  const generateMonthDates = () => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
     
-    // Start with today and show next 14 days
-    for (let i = 0; i < 14; i++) {
-      const date = new Date();
-      date.setDate(today.getDate() + i);
-      dates.push(date);
+    // First day of month
+    const firstDay = new Date(year, month, 1);
+    const firstDayOfWeek = firstDay.getDay(); // 0-6 (Sunday-Saturday)
+    
+    // Last day of month
+    const lastDay = new Date(year, month + 1, 0);
+    const lastDate = lastDay.getDate();
+    
+    const datesArray = [];
+    
+    // Add empty spaces for days before the 1st of the month
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      datesArray.push(null);
     }
     
-    return dates;
+    // Add all days of the month
+    for (let i = 1; i <= lastDate; i++) {
+      datesArray.push(new Date(year, month, i));
+    }
+    
+    return datesArray;
   };
 
   // Get name of the month and year for display
@@ -309,14 +342,24 @@ export default function DashboardPage() {
   };
 
   // Check if a date is selected
-  const isDateSelected = (date: Date) => {
+  const isDateSelected = (date: Date | null) => {
+    if (!date) return false;
     return date.toDateString() === selectedDay.toDateString();
   };
 
   // Check if a date is today
-  const isToday = (date: Date) => {
+  const isToday = (date: Date | null) => {
+    if (!date) return false;
     const today = new Date();
     return date.toDateString() === today.toDateString();
+  };
+
+  // Check if a date is in the past
+  const isPastDate = (date: Date | null) => {
+    if (!date) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
   };
 
   return (
@@ -419,14 +462,49 @@ export default function DashboardPage() {
                   Configure Meeting Details
                 </h3>
 
-                {/* Date Picker - Enhanced Calendar Style */}
+                {/* Date Picker - Enhanced Calendar Style with Month Navigation */}
                 <div className="mb-6">
                   <Label htmlFor="meetDate" className="text-gray-900 font-medium block mb-2 text-sm">
                     Date
                   </Label>
                   <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-                    <div className="text-center mb-4 text-gray-900 font-medium">
-                      {getMonthYearDisplay(selectedDay)}
+                    {/* Month navigation */}
+                    <div className="flex justify-between items-center mb-4">
+                      <button 
+                        type="button"
+                        className="text-gray-700 hover:text-blue-600 p-1 rounded-full hover:bg-blue-50"
+                        onClick={goToPreviousMonth}
+                        aria-label="Previous month"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                      </button>
+                      
+                      <div className="flex items-center">
+                        <span className="text-center text-gray-900 font-medium">
+                          {getMonthYearDisplay(currentMonth)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={goToCurrentMonth}
+                          className="ml-2 text-xs text-blue-600 hover:underline p-1"
+                          aria-label="Go to current month"
+                        >
+                          (Today)
+                        </button>
+                      </div>
+                      
+                      <button 
+                        type="button"
+                        className="text-gray-700 hover:text-blue-600 p-1 rounded-full hover:bg-blue-50"
+                        onClick={goToNextMonth}
+                        aria-label="Next month"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                        </svg>
+                      </button>
                     </div>
                     
                     {/* Days of week header */}
@@ -438,19 +516,22 @@ export default function DashboardPage() {
                       ))}
                     </div>
                     
-                    {/* Calendar dates */}
+                    {/* Calendar dates - Full month view */}
                     <div className="grid grid-cols-7 gap-1">
-                      {generateWeekDates().map((date, index) => (
+                      {generateMonthDates().map((date, index) => (
                         <div
                           key={index}
                           className={`
-                            text-center p-2 rounded-full cursor-pointer text-sm font-medium
-                            ${isDateSelected(date) ? 'bg-blue-600 text-white' : 'hover:bg-gray-100 text-gray-900'}
-                            ${isToday(date) && !isDateSelected(date) ? 'border border-blue-400' : ''}
+                            text-center p-2 rounded-full text-sm font-medium
+                            ${!date ? 'invisible' : ''}
+                            ${date && isDateSelected(date) ? 'bg-blue-600 text-white' : ''}
+                            ${date && !isDateSelected(date) && !isPastDate(date) ? 'hover:bg-gray-100 cursor-pointer text-gray-900' : ''}
+                            ${date && isToday(date) && !isDateSelected(date) ? 'border border-blue-400' : ''}
+                            ${date && isPastDate(date) ? 'text-gray-400 cursor-not-allowed' : ''}
                           `}
-                          onClick={() => handleDateChange(date)}
+                          onClick={() => date && !isPastDate(date) ? handleDateChange(date) : null}
                         >
-                          {date.getDate()}
+                          {date ? date.getDate() : ''}
                         </div>
                       ))}
                     </div>
