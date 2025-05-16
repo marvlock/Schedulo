@@ -6,15 +6,17 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 
 - **Unified Workflow**: Create emails and schedule meetings in one seamless process
 - **Google Meet Integration**: Automatically generate meeting links and calendar invitations
-- **Rich Text Editor**: Format your emails with a user-friendly editor
-- **Authentication**: Secure login via Google and GitHub OAuth
-- **Modern UI**: Clean, responsive interface built with Tailwind CSS
+- **Enhanced Date Selection**: Interactive calendar with month navigation for meeting scheduling
+- **Rich Text Editor**: Format your emails with a user-friendly TipTap editor
+- **Authentication**: Secure login via Google and GitHub OAuth with NextAuth v5
+- **Modern UI**: Clean, responsive interface built with Tailwind CSS v4 and shadcn/ui components
+- **Dark Mode Support**: Comfortable viewing experience in any lighting conditions
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 16.8 or later
+- Node.js 18 or later
 - Google account with Calendar API enabled
 - GitHub account (optional, for OAuth login)
 
@@ -52,20 +54,45 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 
 ## Tech Stack
 
-- **Frontend**: Next.js, React, Tailwind CSS
-- **Authentication**: NextAuth.js
-- **Email Service**: Nodemailer
-- **Calendar API**: Google Calendar API
-- **Form Handling**: React Hook Form with Zod validation
+- **Frontend**: 
+  - Next.js 15.3 with App Router
+  - React 19
+  - Tailwind CSS v4
+  - shadcn/ui components
+  - TipTap rich text editor
+
+- **State Management**:
+  - React Hook Form v7 with Zod validation
+
+- **Authentication**: 
+  - NextAuth.js v5 (Beta)
+  - OAuth providers (Google, GitHub)
+
+- **API Integration**:
+  - Google APIs (Gmail, Calendar, Meet)
+  - Nodemailer for email handling
+
+- **Developer Experience**:
+  - TypeScript
+  - ESLint v9
+  - Turbopack for faster development
 
 ## Usage
 
 1. Log in using Google or GitHub
-2. Compose your email 
+2. Compose your email with the rich text editor
 3. Toggle the "Create a Google Meet" option if needed
-4. Fill in meeting details (date, time, duration)
-5. Send your email with meeting details included
-6. Calendar invitations are automatically sent to all recipients
+4. Select meeting date from the interactive calendar
+5. Choose time, duration, and timezone for your meeting
+6. Send your email with meeting details included
+7. Calendar invitations are automatically sent to all recipients
+
+## Advanced Features
+
+- **Timezone Support**: Schedule meetings across different time zones
+- **Duration Options**: Customize meeting length based on your needs
+- **Calendar Integration**: Direct sync with Google Calendar
+- **Email CC Support**: Include additional recipients as needed
 
 ## Contributing
 
@@ -77,4 +104,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-Built with ❤️ by Pranav Murali
+Built with ❤️ by Pranav Murali | Last Updated: May 2025
