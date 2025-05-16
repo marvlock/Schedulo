@@ -7,8 +7,7 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 - **Unified Workflow**: Create emails and schedule meetings in one seamless process
 - **Google Meet Integration**: Automatically generate meeting links and calendar invitations
 - **Enhanced Date Selection**: Interactive calendar with month navigation for meeting scheduling
-- **Rich Text Editor**: Format your emails with a user-friendly TipTap editor
-- **Authentication**: Secure login via Google and GitHub OAuth with NextAuth v5
+- **Authentication**: Secure login via Google with NextAuth v5
 - **Modern UI**: Clean, responsive interface built with Tailwind CSS v4 and shadcn/ui components
 - **Dark Mode Support**: Comfortable viewing experience in any lighting conditions
 
@@ -18,13 +17,12 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 
 - Node.js 18 or later
 - Google account with Calendar API enabled
-- GitHub account (optional, for OAuth login)
 
 ### Installation
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/yourusername/schedulo.git
+   git clone https://github.com/Marvellousz/schedulo.git
    cd schedulo
    ```
 
@@ -40,7 +38,6 @@ Schedulo is a modern web application that streamlines the process of scheduling 
    
    Then fill in:
    - `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
-   - `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` (for GitHub login)
    - `NEXTAUTH_SECRET` (generate with: `openssl rand -base64 32`)
    - `NEXTAUTH_URL` (e.g., http://localhost:3000)
    - Email service credentials
@@ -59,14 +56,13 @@ Schedulo is a modern web application that streamlines the process of scheduling 
   - React 19
   - Tailwind CSS v4
   - shadcn/ui components
-  - TipTap rich text editor
 
 - **State Management**:
   - React Hook Form v7 with Zod validation
 
 - **Authentication**: 
   - NextAuth.js v5 (Beta)
-  - OAuth providers (Google, GitHub)
+  - OAuth providers (Google)
 
 - **API Integration**:
   - Google APIs (Gmail, Calendar, Meet)
@@ -79,8 +75,8 @@ Schedulo is a modern web application that streamlines the process of scheduling 
 
 ## Usage
 
-1. Log in using Google or GitHub
-2. Compose your email with the rich text editor
+1. Log in using Google
+2. Compose your email 
 3. Toggle the "Create a Google Meet" option if needed
 4. Select meeting date from the interactive calendar
 5. Choose time, duration, and timezone for your meeting
